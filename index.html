@@ -489,20 +489,42 @@
       margin-top: 0.6rem;
     }
     .format-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
       font-family: "Oswald", sans-serif;
       font-size: 0.85rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 0.4rem 0.85rem;
+      padding: 0.55rem 1rem;
       background: var(--ink);
       color: var(--bone);
       border-radius: 2px;
+      text-decoration: none;
+      border-bottom: none;
+      box-shadow: var(--shadow-sm);
+      transition: background .25s ease, transform .2s ease, box-shadow .25s ease, color .25s ease;
+    }
+    a.format-badge:hover {
+      background: var(--ember);
+      color: var(--bone);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-bottom: none;
+    }
+    .format-badge::before {
+      content: "↗";
+      font-size: 0.9rem;
+      opacity: 0.75;
     }
     .format-badge.coming {
       background: transparent;
       color: var(--ink-soft);
       border: 1px dashed var(--ink-soft);
+      box-shadow: none;
+      cursor: default;
     }
+    .format-badge.coming::before { content: "◷"; }
 
     /* =========================================================
        MEDIA SECTION
@@ -692,6 +714,115 @@
     }
 
     /* =========================================================
+       CONTACT FORM — static placeholder for future Elementor form.
+       Lives inside the dark footer, so inputs use a warm cream
+       surface against the smoke-photo backdrop.
+    ========================================================== */
+    .contact-form {
+      max-width: 580px;
+      margin: 0 auto 2rem;
+      display: grid;
+      gap: 1.1rem;
+      text-align: left;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem;
+    }
+
+    .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .form-field label {
+      font-family: "Special Elite", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--brass-light);
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    .form-field input,
+    .form-field textarea {
+      width: 100%;
+      font-family: "Lora", Georgia, serif;
+      font-size: 0.98rem;
+      color: var(--ink);
+      padding: 0.78rem 0.95rem;
+      background: rgba(251, 245, 227, 0.94);
+      border: 1px solid var(--brass);
+      border-radius: 2px;
+      outline: none;
+      box-shadow: inset 0 1px 4px rgba(26, 19, 10, 0.18);
+      transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+
+    .form-field textarea {
+      min-height: 140px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+      color: rgba(74, 58, 34, 0.55);
+      font-style: italic;
+    }
+
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-color: var(--brass-light);
+      background: var(--cream);
+      box-shadow: inset 0 1px 4px rgba(26, 19, 10, 0.18),
+                  0 0 0 3px rgba(216, 184, 122, 0.28);
+    }
+
+    .submit-btn {
+      justify-self: start;
+      font-family: "Oswald", sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 0.95rem 2.2rem;
+      background: var(--ember);
+      color: var(--bone);
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      box-shadow: var(--shadow-md), inset 0 0 0 2px var(--bone), inset 0 0 0 4px var(--ember);
+      transition: transform .2s ease, background .25s ease, box-shadow .25s ease;
+      margin-top: 0.3rem;
+    }
+    .submit-btn:hover:not(:disabled) {
+      background: var(--amber-deep);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg), inset 0 0 0 2px var(--bone), inset 0 0 0 4px var(--amber-deep);
+    }
+    .submit-btn:disabled { cursor: default; opacity: 0.95; }
+
+    .form-divider {
+      max-width: 580px;
+      margin: 1rem auto 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: "Special Elite", monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(216, 184, 122, 0.8);
+    }
+    .form-divider::before,
+    .form-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(216, 184, 122, 0.5), transparent);
+    }
+
+    /* =========================================================
        RESPONSIVE
     ========================================================== */
     @media (max-width: 860px) {
@@ -713,6 +844,8 @@
       .music-toggle { width: 48px; height: 48px; bottom: 14px; right: 14px; }
       .hero .divider::before, .hero .divider::after { width: 60px; }
       .enter-overlay .seal { width: 80px; height: 80px; font-size: 2.2rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .submit-btn { width: 100%; justify-self: stretch; text-align: center; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -798,8 +931,16 @@
               <h3>Available Now</h3>
               <p style="margin: 0;">Order today in your preferred format:</p>
               <div class="formats">
-                <span class="format-badge">Kindle</span>
-                <span class="format-badge">Paperback</span>
+                <a class="format-badge"
+                   href="https://www.amazon.com/Acting-World-Black-Minority-Veterans-ebook/dp/B0DBTVCCZG/"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Buy Kindle edition on Amazon (opens in a new tab)">Kindle</a>
+                <a class="format-badge"
+                   href="https://www.amazon.com/Acting-World-Black-Minority-Veterans/dp/1965593089/"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Buy Paperback on Amazon (opens in a new tab)">Paperback</a>
                 <span class="format-badge coming">Hardback — Coming Soon</span>
               </div>
             </div>
@@ -885,11 +1026,40 @@
   <footer id="contact">
     <div class="container">
       <h3>Get in Touch</h3>
-      <div class="stars-row">★ ★ ★ ★ ★</div>
+
+      <!-- Static contact form (placeholder — will be replaced by an
+           Elementor form in production). The submit handler below
+           gives visitors visual feedback but does not yet send data. -->
+      <form class="contact-form" id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="cf-name">Your Name</label>
+            <input type="text" id="cf-name" name="name" placeholder="Full name" required />
+          </div>
+          <div class="form-field">
+            <label for="cf-email">Email Address</label>
+            <input type="email" id="cf-email" name="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="cf-subject">Subject</label>
+          <input type="text" id="cf-subject" name="subject" placeholder="What can we help with?" />
+        </div>
+        <div class="form-field">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" placeholder="Share your thoughts, questions, or message…" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+
+      <div class="form-divider"><span>Or write directly</span></div>
+
       <p class="contact-line">
-        For inquiries, please write to<br/>
         <a href="mailto:gcmedical@aol.com">gcmedical@aol.com</a>
       </p>
+
+      <div class="stars-row">★ ★ ★ ★ ★</div>
+
       <p class="copyright">
         © <span id="year"></span> A.V. Hankins MD FACP &nbsp;·&nbsp; ACES Veterans Museum
       </p>
@@ -952,6 +1122,41 @@
 
     /* Footer year */
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    /* Static contact form handler — placeholder feedback only.
+       When the Elementor form is wired up, remove this block. */
+    const contactForm = document.getElementById("contactForm");
+    if (contactForm) {
+      contactForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const btn = contactForm.querySelector(".submit-btn");
+        const originalText = btn.textContent;
+
+        // Minimal client-side validation
+        const name    = contactForm.querySelector("#cf-name").value.trim();
+        const email   = contactForm.querySelector("#cf-email").value.trim();
+        const message = contactForm.querySelector("#cf-message").value.trim();
+        if (!name || !email || !message) {
+          btn.textContent = "Please Fill Required Fields";
+          btn.style.background = "var(--burgundy)";
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = "";
+          }, 2400);
+          return;
+        }
+
+        btn.textContent = "Message Received ✓";
+        btn.disabled = true;
+        btn.style.background = "var(--olive)";
+        setTimeout(() => {
+          contactForm.reset();
+          btn.textContent = originalText;
+          btn.disabled = false;
+          btn.style.background = "";
+        }, 3200);
+      });
+    }
 
     /* Scroll-reveal for sections */
     const reveal = new IntersectionObserver((entries) => {
